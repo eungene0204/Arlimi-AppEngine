@@ -1,8 +1,7 @@
 package siva.arlimi.servlet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,12 +21,35 @@ public class EventRegistrationServlet extends HttpServlet
 	{
 		
 		System.out.println("event registration post");
+		
+		StringBuilder sb = new StringBuilder();
+		String line = null;
+		BufferedReader bf;	
 	
-		PrintWriter out = resp.getWriter();
+		try
+		{
+			bf = req.getReader();
+			while( null != (line = bf.readLine() ))
+			{
+				sb.append(line);
+			}
+		}
+		catch(Exception e) { }
 		
-		out.println("goood result");
+		try 
+		{
+			JSONObject jsonObject = new JSONObject(sb.toString());
+			System.out.println(jsonObject.toString());
+			
+			String user = (String) jsonObject.get("USER");
+			System.out.println(user.toString());
+			
+		}
+		catch (JSONException e)
+		{
+			e.printStackTrace();
+		}
 		
-		writeDB(null);
 	}
 	
 	@Override
@@ -36,7 +58,8 @@ public class EventRegistrationServlet extends HttpServlet
 	{
 		
 		System.out.println("event registration get");
-	
+		
+		/*
 		try
 		{
 			JSONObject json = new JSONObject(req.getParameter("USER"));
@@ -55,6 +78,7 @@ public class EventRegistrationServlet extends HttpServlet
 			System.out.println("null!!");
 			e.printStackTrace();
 		} 
+		*/
 	}
 	
 	private void writeDB(String contents)
@@ -64,7 +88,7 @@ public class EventRegistrationServlet extends HttpServlet
 		{
 			Connection conn = DatabaseConnection.getConnection();
 			Statement stmt = conn.createStatement();
-			String query = "INSERT INTO events values('³×ÀÏ¼¥','³×ÀÏ¾ÆÆ® 2¸¸¿ø');";
+			String query = "INSERT INTO events values('ï¿½ï¿½ï¿½Ï¼ï¿½','ï¿½ï¿½ï¿½Ï¾ï¿½Æ® 2ï¿½ï¿½ï¿½ï¿½');";
 			int rs = stmt.executeUpdate(query);
 			
 			if(rs ==1)
@@ -76,6 +100,5 @@ public class EventRegistrationServlet extends HttpServlet
 		}
 		
 		*/
-		
 	}
 }

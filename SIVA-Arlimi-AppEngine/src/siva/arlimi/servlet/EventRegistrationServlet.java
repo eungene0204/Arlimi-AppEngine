@@ -2,11 +2,16 @@ package siva.arlimi.servlet;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import siva.arlimi.database.DatabaseConnection;
 
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
@@ -59,6 +64,8 @@ public class EventRegistrationServlet extends HttpServlet
 		
 		System.out.println("event registration get");
 		
+		writeDB("TEST");
+		
 		/*
 		try
 		{
@@ -81,24 +88,27 @@ public class EventRegistrationServlet extends HttpServlet
 		*/
 	}
 	
-	private void writeDB(String contents)
+	private void writeDB(String id)
 	{
-		/*
 		try
 		{
 			Connection conn = DatabaseConnection.getConnection();
 			Statement stmt = conn.createStatement();
-			String query = "INSERT INTO events values('���ϼ�','���Ͼ�Ʈ 2����');";
+			String query = String.format("insert into gcm_registration_id" +
+			"(reg_id) values ('%s');", id); 
+			
 			int rs = stmt.executeUpdate(query);
 			
 			if(rs ==1)
-				System.out.println("Update Success");
+				System.out.println("GCM Id Update Success");
+			else
+				System.out.println("Gcm registration fail");
 			
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
 		}
-		
-		*/
+	
 	}
+
 }

@@ -2,6 +2,7 @@ package siva.arlimi.servlet;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -64,7 +65,11 @@ public class EventRegistrationServlet extends HttpServlet
 		
 		System.out.println("event registration get");
 		
-		writeDB("TEST");
+		PrintWriter out = resp.getWriter();
+		
+		out.println("Hello World");
+		
+		//writeDB("TEST");
 		
 		/*
 		try

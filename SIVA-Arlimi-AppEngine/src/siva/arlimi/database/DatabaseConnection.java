@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServlet;
 
 public class DatabaseConnection extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final String DB_URL = "jdbc:mysql://localhost:3306/siva_arlimi_test";
 	private static final String JDBC_DRIVER= "com.mysql.jdbc.Driver";
 	private static final String DB_POOL_DRIVER = "org.apache.commons.dbcp.PoolingDriver";

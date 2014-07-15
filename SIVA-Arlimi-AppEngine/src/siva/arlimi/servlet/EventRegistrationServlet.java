@@ -29,7 +29,7 @@ public class EventRegistrationServlet extends HttpServlet
 		System.out.println("event registration post");
 		
 		StringBuilder sb = new StringBuilder();
-		String line = null;
+		String line = "";
 		BufferedReader bf;	
 	
 		try
@@ -42,13 +42,19 @@ public class EventRegistrationServlet extends HttpServlet
 		}
 		catch(Exception e) { }
 		
+		System.out.println("sb: " + sb.toString());
+		
 		try 
 		{
-			JSONObject jsonObject = new JSONObject(sb.toString());
-			System.out.println(jsonObject.toString());
-			
-			String user = (String) jsonObject.get("USER");
-			System.out.println(user.toString());
+			if(!sb.toString().isEmpty())
+			{
+				JSONObject jsonObject = new JSONObject(sb.toString());
+				writeDB(jsonObject);
+			}
+			else
+			{
+				System.out.println("StringBuilder is empty");
+			}
 			
 		}
 		catch (JSONException e)
@@ -93,19 +99,34 @@ public class EventRegistrationServlet extends HttpServlet
 		*/
 	}
 	
-	private void writeDB(String id)
+	private void writeDB(JSONObject json)
 	{
+		String email = "";
+		try {
+			email = (String)json.get("EMAIL");
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		email="GangDong@gmail.gmail";
+		String contents = "GangDong";
+		String latitude = "37.53072";
+		String longitude = "127.120514";
+		
 		try
 		{
+			int id = 2;
 			Connection conn = DatabaseConnection.getConnection();
 			Statement stmt = conn.createStatement();
-			String query = String.format("insert into gcm_registration_id" +
-			"(reg_id) values ('%s');", id); 
+			String query = String.format("insert into event" +
+			"(id, owner_email, event_contents, event_start_date, event_start_time, event_end_date, event_end_time, event_radius, event_latitude, event_longitude) values ('%d','%s','%s','%s','%s','%s','%s','%s','%s','%s');", 
+			  		 id++, email, contents,null,null,null,null,null, latitude, longitude); 
 			
 			int rs = stmt.executeUpdate(query);
 			
 			if(rs ==1)
-				System.out.println("GCM Id Update Success");
+				System.out.println("Event Update Success");
 			else
 				System.out.println("Gcm registration fail");
 			

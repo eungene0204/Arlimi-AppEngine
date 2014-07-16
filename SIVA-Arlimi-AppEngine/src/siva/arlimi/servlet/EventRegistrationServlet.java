@@ -109,14 +109,14 @@ public class EventRegistrationServlet extends HttpServlet
 			e1.printStackTrace();
 		}
 		
-		email="GangDong@gmail.gmail";
-		String contents = "GangDong";
-		String latitude = "37.53072";
-		String longitude = "127.120514";
+		email="Amsa@gmail.gmail";
+		String contents = "Amsa";
+		String latitude = "37.550424";
+		String longitude = "127.127530";
 		
 		try
 		{
-			int id = 2;
+			int id = 1;
 			Connection conn = DatabaseConnection.getConnection();
 			Statement stmt = conn.createStatement();
 			String query = String.format("insert into event" +

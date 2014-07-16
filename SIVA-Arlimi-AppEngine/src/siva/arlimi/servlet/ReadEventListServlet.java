@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import siva.arlimi.database.DatabaseConnection;
+import siva.arlimi.util.EventUtil;
 
 import com.google.appengine.labs.repackaged.org.json.JSONArray;
+import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 
@@ -26,8 +28,8 @@ public class ReadEventListServlet extends HttpServlet
 	private static final String EventList = null;
 	
 	
-	String resName;
-	String contents;
+	private String resName;
+	private String contents;
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -53,7 +55,6 @@ public class ReadEventListServlet extends HttpServlet
 		writer.write(eventArray.toString());
 		writer.close();
 		
-		
 	}
 	
 
@@ -67,17 +68,29 @@ public class ReadEventListServlet extends HttpServlet
 		{
 			conn = DatabaseConnection.getConnection();
 			Statement stmt = conn.createStatement();
-			String query = "select * from events;"; 
+			String query = "select * from event;"; 
 			ResultSet rs = stmt.executeQuery(query); 
+			
 			
 			while(rs.next())
 			{
-				JSONObject event = new JSONObject();
-	/*			
-				event.put("business_name", rs.getString("res_name"));
-				event.put("contents", rs.getString("contents"));
 				
-				eventArray.add(event); */
+				JSONObject event = new JSONObject();
+				try
+				{
+					event.put(EventUtil.EMAIL, rs.getString("owner_email"));
+					event.put(EventUtil.EVENT_CONTENTS, rs.getString("event_contents"));
+					event.put(EventUtil.EVENT_LATITUDE, rs.getString("event_latitude"));
+					event.put(EventUtil.EVENT_LONGITUDE, rs.getString("event_longitude"));
+					
+				}
+				catch (JSONException e) 
+				{
+					e.printStackTrace();
+				}
+				
+				//eventArray.add(event); 
+				eventArray.put(event);
 			}
 			
 		} catch (SQLException e)

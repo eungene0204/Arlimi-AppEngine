@@ -78,6 +78,8 @@ public class ReadEventListServlet extends HttpServlet
 				JSONObject event = new JSONObject();
 				try
 				{
+					event.put(EventUtil.EVENT_ID, Integer.valueOf(rs.getInt("id")));
+					
 					event.put(EventUtil.EMAIL, rs.getString("owner_email"));
 					event.put(EventUtil.EVENT_CONTENTS, rs.getString("event_contents"));
 					event.put(EventUtil.EVENT_LATITUDE, rs.getString("event_latitude"));

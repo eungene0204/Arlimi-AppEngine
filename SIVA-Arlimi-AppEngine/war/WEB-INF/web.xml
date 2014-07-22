@@ -31,7 +31,16 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
        <servlet-name>readEventList-servlet</servlet-name>
        <url-pattern>/event/readEventList</url-pattern>
   </servlet-mapping>
-  
+ 	
+	 <servlet>
+      <servlet-name>readEventByID-servlet</servlet-name>
+      <servlet-class>siva.arlimi.servlet.ReadEventByIDServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+       <servlet-name>readEventByID-servlet</servlet-name>
+       <url-pattern>/event/readEventByID</url-pattern>
+  </servlet-mapping>
+   
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>

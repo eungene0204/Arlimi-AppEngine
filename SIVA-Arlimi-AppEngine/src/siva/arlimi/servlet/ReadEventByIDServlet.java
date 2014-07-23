@@ -77,7 +77,7 @@ public class ReadEventByIDServlet extends HttpServlet
 		
 		//Get Ids from JsonArray
 		String[] eventIds = readIds(jsonArray);
-		readDB(eventIds);
+		//readDB(eventIds);
 		
 	}
 	
@@ -109,12 +109,14 @@ public class ReadEventByIDServlet extends HttpServlet
 		Connection conn = null;
 		JSONArray eventArray = new JSONArray();
 		
+		String query = makeQuery(eventId);
+		
+		/*
 		try
 		{
 			conn = DatabaseConnection.getConnection();
 			Statement stmt = conn.createStatement();
 			//String query = "select * from event;"; 
-			String query = makeQuery(eventId);
 			ResultSet rs = stmt.executeQuery(query); 
 			
 			
@@ -147,13 +149,25 @@ public class ReadEventByIDServlet extends HttpServlet
 		} catch(NullPointerException e)
 		{
 			e.printStackTrace();
-		}
+		} */
 		
 		return eventArray;
 	}
 
 	private String makeQuery(String[] eventId)
 	{
+		StringBuilder sb = new StringBuilder
+				("selcet * from event where id in(");
 		
+		for(int i = 0; i < eventId.length; i++)
+		{
+			sb.append(eventId[i]);
+			if( !((eventId.length -1) == i))
+				sb.append(",");
+		}
+		sb.append(")");
+		
+		return sb.toString();
 	}
+	
 }

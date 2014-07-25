@@ -3,17 +3,11 @@ package siva.arlimi.servlet;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import siva.arlimi.database.DatabaseConnection;
-import siva.arlimi.util.EventUtil;
 
 import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
@@ -57,12 +51,14 @@ public class ReadEventByIDServlet extends HttpServlet
 		catch(Exception e) { }
 		
 		System.out.println("sb: " + sb.toString());
+	
+		JSONObject json = new JSONObject();
 		
 		try 
 		{
 			if(!sb.toString().isEmpty())
 			{
-				jsonArray = new JSONArray(sb.toString());
+				json = new JSONObject(sb.toString()); 
 			}
 			else
 			{
@@ -76,22 +72,21 @@ public class ReadEventByIDServlet extends HttpServlet
 		}
 		
 		//Get Ids from JsonArray
-		String[] eventIds = readIds(jsonArray);
+		String[] eventIds = readIds(json);
 		//readDB(eventIds);
 		
 	}
 	
 	
-	private String[] readIds(JSONArray jsonArray)
+	private String[] readIds(JSONObject json)
 	{
-		int len = jsonArray.length();
+		int len = json.length();
 		String[] eventIds = new String[len];
 		
-		for(int i = 0; i < len; i++)
+		for(int i = 0; i < len - 1; i++)
 		{
 			try
 			{
-				JSONObject json = (JSONObject) jsonArray.get(i);
 				eventIds[i] = (String) json.get(String.valueOf(i));
 			}
 			catch (JSONException e)

@@ -25,11 +25,9 @@ public class DatabaseConnection extends HttpServlet
 	{
 	}
 	
-	public static Connection getConnection()
+	public static Connection getConnection() throws ClassNotFoundException, SQLException
 	{
 		Connection conn = null;
-		try
-		{
 			/*
 			Class.forName(DB_POOL_DRIVER);
 			conn = DriverManager.getConnection(
@@ -37,14 +35,7 @@ public class DatabaseConnection extends HttpServlet
 			
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL, ID, PASS);
-			
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-		} catch(ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		}
+		
 		return conn;
 	}
 }

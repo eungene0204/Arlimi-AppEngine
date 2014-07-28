@@ -101,6 +101,22 @@ public class ReadEventListServlet extends HttpServlet
 		} catch(NullPointerException e)
 		{
 			e.printStackTrace();
+		} catch (ClassNotFoundException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		finally
+		{
+			if( null != conn)
+				try
+				{
+					conn.close();
+				} catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		}
 		
 		return eventArray;

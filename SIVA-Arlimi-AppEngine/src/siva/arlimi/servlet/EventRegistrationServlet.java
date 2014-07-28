@@ -130,7 +130,7 @@ public class EventRegistrationServlet extends HttpServlet
 			else
 				System.out.println("Gcm registration fail");
 			
-		} catch (SQLException e)
+		} catch (SQLException | ClassNotFoundException e)
 		{
 			e.printStackTrace();
 		}

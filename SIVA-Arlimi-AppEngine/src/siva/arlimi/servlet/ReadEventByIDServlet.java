@@ -176,6 +176,23 @@ public class ReadEventByIDServlet extends HttpServlet
 		} catch (JSONException e)
 		{
 			e.printStackTrace();
+		} catch (ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(null != conn)
+			{
+				try
+				{
+					conn.close();
+				} catch (SQLException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		return jsonArray;

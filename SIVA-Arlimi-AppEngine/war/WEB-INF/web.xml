@@ -40,6 +40,34 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
        <servlet-name>readEventByID-servlet</servlet-name>
        <url-pattern>/event/readEventByID</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+      <servlet-name>emailUserRegistration-servlet</servlet-name>
+      <servlet-class>siva.arlimi.servlet.EmailUserRegistrationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+      <servlet-name>emailUserRegistration-servlet</servlet-name>
+      <url-pattern>/user/reg/emailuser</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+      <servlet-name>facebookUserRegistration-servlet</servlet-name>
+      <servlet-class>siva.arlimi.servlet.FacebookUserRegistrationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+      <servlet-name>facebookUserRegistration-servlet</servlet-name>
+      <url-pattern>/user/reg/facebookuser</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+      <servlet-name>facebookUserLogin-servlet</servlet-name>
+      <servlet-class>siva.arlimi.login.servlet.FacebookUserLoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+      <servlet-name>facebookUserLogin-servlet</servlet-name>
+      <url-pattern>/user/login/facebookuser</url-pattern>
+  </servlet-mapping>
+  
    
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

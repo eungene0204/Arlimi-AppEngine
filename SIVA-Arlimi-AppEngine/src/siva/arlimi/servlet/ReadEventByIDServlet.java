@@ -1,6 +1,7 @@
 package siva.arlimi.servlet;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -20,6 +21,7 @@ import org.json.JSONObject;
 
 import siva.arlimi.database.DatabaseConnection;
 import siva.arlimi.util.EventUtil;
+import siva.arlimi.util.IOHelper;
 
 public class ReadEventByIDServlet extends HttpServlet
 {
@@ -42,77 +44,14 @@ public class ReadEventByIDServlet extends HttpServlet
 	{
 		System.out.println("readEventID post");
 		
-		StringBuilder sb = readRequest(req);
-		JSONObject events = conversionToJson(sb);
+		//StringBuilder sb = readRequest(req);
+		//JSONObject events = conversionToJson(sb);
+		JSONObject events = IOHelper.readRequest(req);
 		String[] eventIds = readIds(events);
 		JSONArray result = readDB(eventIds);
-		
-		sendResult(result, resp);
 
-	}
-	
-	private void sendResult(JSONArray result,HttpServletResponse resp) throws UnsupportedEncodingException
-	{
-		OutputStreamWriter writer;
-		try
-		{
-			writer = new OutputStreamWriter(resp.getOutputStream(),"utf8");
-			writer.write(result.toString());
-			writer.close();
-			
-		}
-		catch (IOException e1)
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-	}
-	
-	private StringBuilder readRequest(HttpServletRequest req)
-	{
-		StringBuilder sb = new StringBuilder();
-		String line = "";
-		BufferedReader bf;
+		IOHelper.sendResponse(result, resp);
 
-		try
-		{
-			bf = req.getReader();
-			while (null != (line = bf.readLine()))
-			{
-				sb.append(line);
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		
-		return sb;
-	}
-	
-	private JSONObject conversionToJson(StringBuilder sb)
-	{
-	
-		JSONObject json = new JSONObject();
-
-		try
-		{
-			if (!sb.toString().isEmpty())
-			{
-				json = new JSONObject(sb.toString());
-			} 
-			else
-			{
-				System.out.println("StringBuilder is empty");
-			}
-
-		} catch (JSONException e)
-		{
-			e.printStackTrace();
-		}
-		
-		return json;
 	}
 
 	private String[] readIds(JSONObject json)

@@ -1,6 +1,7 @@
 package siva.arlimi.servlet;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -12,10 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import siva.arlimi.database.DatabaseConnection;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import com.google.appengine.labs.repackaged.org.json.JSONException;
-import com.google.appengine.labs.repackaged.org.json.JSONObject;
+import siva.arlimi.database.DatabaseConnection;
 
 public class EventRegistrationServlet extends HttpServlet
 {

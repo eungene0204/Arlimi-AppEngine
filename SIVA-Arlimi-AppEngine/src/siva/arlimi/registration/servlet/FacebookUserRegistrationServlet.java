@@ -1,4 +1,4 @@
-package siva.arlimi.servlet;
+package siva.arlimi.registration.servlet;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -14,24 +14,37 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import siva.arlimi.database.DatabaseConnection;
+import siva.arlimi.database.util.DatabaseUtil;
+import siva.arlimi.login.util.LoginUtil;
 import siva.arlimi.util.IOHelper;
 
 public class FacebookUserRegistrationServlet extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8976072385302228547L;
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException
 	{
 		
 		JSONObject json = IOHelper.readRequest(req);
-		writeDB(json);
+		int result = writeDB(json);
+		
+		if(result == DatabaseUtil.UPDATE_SUCCESS)
+			IOHelper.sendResponse(LoginUtil.VALID_USER, resp);
+		else
+			IOHelper.sendResponse(LoginUtil.INVALID_USER, resp);
 		
 	}
 
-	private void writeDB(JSONObject data)
+	private int writeDB(JSONObject data)
 	{
-		// TODO Auto-generated method stub
-			try
+		int result = 0;
+		
+		try
 		{
 			String email = data.getString("EMAIL");
 			String name = data.getString("NAME");
@@ -46,9 +59,9 @@ public class FacebookUserRegistrationServlet extends HttpServlet
 			int rs = stmt.executeUpdate(query);
 			
 			if(1 == rs)
-				System.out.println("facebook user updated");
+				 result = DatabaseUtil.UPDATE_SUCCESS;
 			else
-				System.out.println("Fail to update facebook user");
+				result = DatabaseUtil.UPDATE_FAIL;
 			
 		}
 		catch(JSONException e)
@@ -67,6 +80,8 @@ public class FacebookUserRegistrationServlet extends HttpServlet
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return result;
 		
 	}
 

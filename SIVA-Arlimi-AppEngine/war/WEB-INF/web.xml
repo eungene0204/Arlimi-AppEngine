@@ -43,7 +43,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
   
   <servlet>
       <servlet-name>emailUserRegistration-servlet</servlet-name>
-      <servlet-class>siva.arlimi.servlet.EmailUserRegistrationServlet</servlet-class>
+      <servlet-class>siva.arlimi.registration.servlet.EmailUserRegistrationServlet</servlet-class>
   </servlet>
   <servlet-mapping>
       <servlet-name>emailUserRegistration-servlet</servlet-name>
@@ -52,7 +52,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
   
    <servlet>
       <servlet-name>facebookUserRegistration-servlet</servlet-name>
-      <servlet-class>siva.arlimi.servlet.FacebookUserRegistrationServlet</servlet-class>
+      <servlet-class>siva.arlimi.registration.servlet.FacebookUserRegistrationServlet</servlet-class>
   </servlet>
   <servlet-mapping>
       <servlet-name>facebookUserRegistration-servlet</servlet-name>
@@ -68,7 +68,26 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
       <url-pattern>/user/login/facebookuser</url-pattern>
   </servlet-mapping>
   
-   
+   <servlet>
+      <servlet-name>emailUserLogin-servlet</servlet-name>
+      <servlet-class>siva.arlimi.login.servlet.EmailUserLoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+      <servlet-name>emailUserLogin-servlet</servlet-name>
+      <url-pattern>/user/login/emailuser</url-pattern>
+  </servlet-mapping>
+ 
+  <!-- Shop Registration -->
+  <servlet>
+      <servlet-name>shopRegistration-servlet</servlet-name>
+      <servlet-class>siva.arlimi.shop.servlet.ShopRegistrationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+      <servlet-name>shopRegistration-servlet</servlet-name>
+      <url-pattern>/shop/registration</url-pattern>
+  </servlet-mapping>
+  
+  
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>

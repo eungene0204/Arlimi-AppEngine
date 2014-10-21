@@ -1,8 +1,7 @@
-package siva.arlimi.servlet;
+package siva.arlimi.registration.servlet;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,7 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.api.server.spi.auth.AuthUtils;
+
 import siva.arlimi.database.DatabaseConnection;
+import siva.arlimi.database.util.DatabaseUtil;
+import siva.arlimi.login.util.LoginUtil;
+import siva.arlimi.util.IOHelper;
 
 public class EmailUserRegistrationServlet extends HttpServlet
 {
@@ -28,20 +32,14 @@ public class EmailUserRegistrationServlet extends HttpServlet
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException
 	{
-		OutputStreamWriter writer;
-		
-		writer = new OutputStreamWriter(resp.getOutputStream(), "utf8");
-		writer.write("hello world");
-		
-		System.out.println("hihihihi");
-	
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException
 	{
-		
+	
+		int result = 0;
 		StringBuilder sb = new StringBuilder();
 		String line = "";
 		BufferedReader bf;
@@ -57,16 +55,30 @@ public class EmailUserRegistrationServlet extends HttpServlet
 			if(!sb.toString().isEmpty())
 			{
 				JSONObject json = new JSONObject(sb.toString());
-				writeDB(json);
+				result = writeDB(json);
 				
 			}
 		}
 		catch(Exception e){} 
 		
+		if(DatabaseUtil.UPDATE_SUCCESS == result)
+		{
+			System.out.println("Update Success");
+			IOHelper.sendResponse(LoginUtil.VALID_USER, resp);
+		}
+		else
+		{
+			System.out.println("Update Fail");
+			IOHelper.sendResponse(LoginUtil.INVALID_USER, resp);
+		}
+			
+		
 	}
 
-	private void writeDB(JSONObject data)
+	private int writeDB(JSONObject data)
 	{
+		int result = 0;
+		
 		try
 		{
 			String email = data.getString("EMAIL");
@@ -85,9 +97,9 @@ public class EmailUserRegistrationServlet extends HttpServlet
 			int rs = stmt.executeUpdate(query);
 			
 			if(1 == rs)
-				System.out.println("Email user updated");
+				result = DatabaseUtil.UPDATE_SUCCESS;
 			else
-				System.out.println("Fail to update email user");
+				result = DatabaseUtil.UPDATE_FAIL;
 			
 		}
 		catch(JSONException e)
@@ -106,6 +118,8 @@ public class EmailUserRegistrationServlet extends HttpServlet
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return result;
 		
 	}
 

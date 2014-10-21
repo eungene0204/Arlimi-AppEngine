@@ -18,9 +18,8 @@ import siva.arlimi.database.DatabaseConnection;
 import siva.arlimi.login.util.LoginUtil;
 import siva.arlimi.util.IOHelper;
 
-public class FacebookUserLoginServlet extends HttpServlet
+public class EmailUserLoginServlet extends HttpServlet
 {
-
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException
@@ -31,8 +30,9 @@ public class FacebookUserLoginServlet extends HttpServlet
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException
 	{
-		System.out.println("facebook login");
 		
+		System.out.println("email login");
+			
 		JSONObject json = IOHelper.readRequest(req);
 		
 		boolean result = readDB(json);
@@ -43,7 +43,7 @@ public class FacebookUserLoginServlet extends HttpServlet
 			IOHelper.sendResponse(LoginUtil.INVALID_USER, resp);
 		
 	}
-
+	
 	private boolean readDB(final JSONObject json)
 	{
 		Connection conn = null;
@@ -52,16 +52,17 @@ public class FacebookUserLoginServlet extends HttpServlet
 		try
 		{
 			String email = json.getString(LoginUtil.EMAIL);
+			String password = json.getString(LoginUtil.PASSWORD);
 			
 			conn = DatabaseConnection.getConnection();
 			Statement stmt = conn.createStatement();
-			String sql = "select * from facebook_user where email = " +
-			"'" + email +"'"; 
+			String sql = "select * from email_user where email = " +
+			"'" + email +"'" + "AND "
+					+ "password = "  + "'" + password + "'";
 			
 			System.out.println(sql);
 			
 			ResultSet rs = stmt.executeQuery(sql);
-			
 			result = rs.next();
 			
 		} catch (ClassNotFoundException e)
@@ -90,5 +91,6 @@ public class FacebookUserLoginServlet extends HttpServlet
 		
 		return result;
 	}
+
 
 }

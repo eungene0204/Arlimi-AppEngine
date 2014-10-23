@@ -38,9 +38,15 @@ public class FacebookUserLoginServlet extends HttpServlet
 		boolean result = readDB(json);
 	
 		if(result)
+		{
+			System.out.println("valid user");
 			IOHelper.sendResponse(LoginUtil.VALID_USER, resp);
+		}
 		else
+		{
+			System.out.println("invalid User");
 			IOHelper.sendResponse(LoginUtil.INVALID_USER, resp);
+		}
 		
 	}
 

@@ -35,6 +35,8 @@ public class FacebookUserRegistrationServlet extends HttpServlet
 		
 		if(result == DatabaseUtil.UPDATE_SUCCESS)
 			IOHelper.sendResponse(LoginUtil.VALID_USER, resp);
+		else if(result == DatabaseUtil.DUPLICATE_KEY)
+			IOHelper.sendResponse(LoginUtil.DUPLICATE_USER, resp);
 		else
 			IOHelper.sendResponse(LoginUtil.INVALID_USER, resp);
 		
@@ -52,7 +54,7 @@ public class FacebookUserRegistrationServlet extends HttpServlet
 			Connection conn = DatabaseConnection.getConnection();
 			Statement stmt = conn.createStatement();
 			String query = String.format("insert into facebook_user" +
-					" values ('%s','%s');", email, name );
+					" values ('%s','%s')", email, name );
 			
 			System.out.println(query);
 			
@@ -73,13 +75,20 @@ public class FacebookUserRegistrationServlet extends HttpServlet
 			e.printStackTrace();
 		} catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e)
+			System.out.println("state :" + e.getSQLState());
+			
+			//sqlState 23000 duplicate key
+			if(e.getSQLState().equals("23000"))
+				return result = DatabaseUtil.DUPLICATE_KEY;
+			
+		} 
+		catch (Exception e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		System.out.println("Result :"  + result);
 		
 		return result;
 		

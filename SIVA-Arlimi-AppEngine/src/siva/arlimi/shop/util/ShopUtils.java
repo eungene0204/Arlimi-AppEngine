@@ -13,5 +13,6 @@ public class ShopUtils
 	
 	static public final String RESULT_OK = "ok";
 	static public final String RESULT_FAIL = "fail"; 
+	static public final String RESULT_DUPLICATE = "duplicate";
 
 }

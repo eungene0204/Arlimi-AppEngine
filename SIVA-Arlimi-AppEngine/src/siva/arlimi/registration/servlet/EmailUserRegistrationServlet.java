@@ -61,10 +61,18 @@ public class EmailUserRegistrationServlet extends HttpServlet
 		}
 		catch(Exception e){} 
 		
+		
+		
 		if(DatabaseUtil.UPDATE_SUCCESS == result)
 		{
 			System.out.println("Update Success");
 			IOHelper.sendResponse(LoginUtil.VALID_USER, resp);
+		}
+		else if(DatabaseUtil.DUPLICATE_KEY == result)
+		{
+			System.out.println("Duplicate key");
+			IOHelper.sendResponse(LoginUtil.DUPLICATE_USER, resp);
+			
 		}
 		else
 		{
@@ -111,8 +119,12 @@ public class EmailUserRegistrationServlet extends HttpServlet
 			e.printStackTrace();
 		} catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("state :" + e.getSQLState());
+			
+			//sqlState 23000 duplicate key
+			if(e.getSQLState().equals("23000"))
+				return result = DatabaseUtil.DUPLICATE_KEY;
+			
 		} catch (Exception e)
 		{
 			// TODO Auto-generated catch block

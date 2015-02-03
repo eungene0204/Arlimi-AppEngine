@@ -1,8 +1,6 @@
-package siva.arlimi.shop.servlet;
+package siva.arlimi.event.servlet;
 
 import java.io.IOException;
-import java.net.URLDecoder;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,19 +15,15 @@ import org.json.JSONObject;
 
 import siva.arlimi.database.DatabaseConnection;
 import siva.arlimi.database.util.DatabaseUtil;
-import siva.arlimi.login.util.LoginUtil;
-import siva.arlimi.shop.util.ShopUtils;
+import siva.arlimi.event.util.EventUtils;
 import siva.arlimi.util.IOHelper;
 
-public class ShopRegistrationServlet extends HttpServlet
+public class EventRegistrationServlet extends HttpServlet 
 {
-	private static final long serialVersionUID = -9029041810745289351L;
-	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException
 	{
-		System.out.println("hahahahahahah");
 	}
 	
 	@Override
@@ -38,41 +32,28 @@ public class ShopRegistrationServlet extends HttpServlet
 	{
 		JSONObject json = IOHelper.readRequest(req);
 		int result = writeDB(json);
-
-		if (result == DatabaseUtil.UPDATE_SUCCESS)
-			IOHelper.sendResponse(ShopUtils.RESULT_OK, resp);
-		else if( result == DatabaseUtil.DUPLICATE_KEY)
-			IOHelper.sendResponse(ShopUtils.RESULT_DUPLICATE, resp);
-		else
-			IOHelper.sendResponse(ShopUtils.RESULT_FAIL, resp);
-
+		
 	}
-
+	
 	private int writeDB(JSONObject data)
 	{
 		int result = 0;
 		
 		try
 		{
-			String email = data.getString(LoginUtil.EMAIL);
-			String name = data.getString(ShopUtils.KEY_NAME);
-			String address = data.getString(ShopUtils.KEY_ADDRESS);
-			String detail = data.getString(ShopUtils.KEY_DETAIL_ADDRESS);
-			String phone =  data.getString(ShopUtils.KEY_PHONE);
-			String zip = data.getString(ShopUtils.KEY_ZIP);
-			double latitude = data.getDouble(ShopUtils.KEY_LATITUDE);
-			double longitude = data.getDouble(ShopUtils.KEY_LONGITUDE);
+			String cotents = data.getString(EventUtils.EVENT_CONTENTS);
+			String email = data.getString(EventUtils.KEY_EMAIL);
+			String name = data.getString(EventUtils.KEY_NAME);
+			String start_date = data.getString(EventUtils.EVENT_START_DATE);
+			String end_date = data.getString(EventUtils.EVENT_END_DATE);
+			String start_time = data.getString(EventUtils.EVENT_START_TIME);
+			String end_time = data.getString(EventUtils.EVENT_END_TIME);
 			
-			//Decoding for Hangul
-			name = URLDecoder.decode(name, "UTF-8");
-			address = URLDecoder.decode(address, "UTF-8");
-			detail = URLDecoder.decode(detail, "UTF-8");
 			
 			Connection conn = DatabaseConnection.getConnection();
 			Statement stmt = conn.createStatement();
-			String query = String.format("insert into shop_list" +
-					" values ('%s','%s', '%s','%s','%s', '%s','%f', '%f' );",
-					email, name, address, detail, zip, phone, latitude, longitude );
+			String query = String.format("insert into facebook_user" +
+					" values ('%s','%s')", email, name );
 			
 			System.out.println(query);
 			
@@ -93,20 +74,24 @@ public class ShopRegistrationServlet extends HttpServlet
 			e.printStackTrace();
 		} catch (SQLException e)
 		{
+			System.out.println("state :" + e.getSQLState());
 			
 			//sqlState 23000 duplicate key
 			if(e.getSQLState().equals("23000"))
 				return result = DatabaseUtil.DUPLICATE_KEY;
 			
-		} catch (Exception e)
+		} 
+		catch (Exception e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		System.out.println("Result :"  + result);
+		
 		return result;
 		
 	}
-	
+
 
 }

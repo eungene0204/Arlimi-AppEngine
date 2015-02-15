@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.api.server.spi.auth.AuthUtils;
 
 import siva.arlimi.database.DatabaseConnection;
 import siva.arlimi.database.util.DatabaseUtil;

@@ -35,12 +35,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
   <!-- SERVICE -->
   <servlet>
       <servlet-name>readAllServiceList-servlet</servlet-name>
-      <servlet-class>siva.arlimi.service.ReadAllListServlet</servlet-class>
+      <servlet-class>siva.arlimi.service.servlet.ReadAllListServlet</servlet-class>
   </servlet>
   <servlet-mapping>
        <servlet-name>readAllServiceList-servlet</servlet-name>
        <url-pattern>/service/readAllServiceList</url-pattern>
   </servlet-mapping> 
+  
+  
  	
 	 <servlet>
       <servlet-name>readEventByID-servlet</servlet-name>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine (2)"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/Eungjun/Desktop/SIVA/java-json.jar/java-json.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Eungjun/Desktop/SIVA/Android/adt-bundle-windows-x86_64-20140702/adt-bundle-windows-x86_64-20140702/eclipse/plugins/javax.servlet_3.0.0.v201112011016.jar"/>
